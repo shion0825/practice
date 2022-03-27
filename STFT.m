@@ -1,10 +1,18 @@
 clear;clc;
 
-t=(0:0.05:1)';
-data=sin(2*pi*t);
+audioinfo("voice.wav")
+[data,Fs]=audioread("voice.wav");   %Fsはサンプリングレート(今回は使わない)
+[num_data,num_channel]=size(data);  %データの数,チャンネル数
 
-window_length=10; %窓長(偶数)
+window_length=2^10; %窓長(偶数)
 shift_length=window_length/2; %シフト長
+
+for i=1:num_channel
+    fprintf("チャンネル%dのスペクトログラム\n",i)
+    STFT_function(data(:,1),window_length,shift_length)
+end
+
+function spectrogram=STFT_function(data,window_length,shift_length)
 
 [num_data,num_channel]=size(data);  %データの数,チャンネル数
 
@@ -28,5 +36,4 @@ for i=1:num_row
     spectrogram(:,i)=work_vector;                   %行列に並べる
 end
 
-fprintf("完成スペクトログラム")
-spectrogram
+end
