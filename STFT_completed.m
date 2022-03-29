@@ -1,9 +1,10 @@
 clear;clc;
 
 %---main---main---main---main---main---main---main---main---
-call_STFT("sample_high_tone.wav")       %自分の声(高音のつもり)
-call_STFT("sample_low_tone.wav")        %自分の声(低音)
-call_STFT("sample_high_low_tone.wav")   %自分の声(高低差あり)
+%call_STFT("sample_high_tone.wav")       %自分の声(高音のつもり)
+%call_STFT("sample_low_tone.wav")        %自分の声(低音)
+%call_STFT("sample_high_low_tone.wav")   %自分の声(高低差あり)
+call_STFT("sample_doremi.mp3")
 %call_STFT("sample_drum1.wav")
 %call_STFT("sample_fue1.wav")
 %call_STFT("sample_sample_gone.wav")
@@ -19,7 +20,7 @@ function call_STFT(filename)
 
 %---------------グラフの編集---------------
 f = figure();
-f.Position(3:4) = [900 400];
+f.Position(3:4) = [400*num_channel 400];
 for i = 1:num_channel
     [x,y,z] = STFT_function(data(:,i),Fs);
     subplot(1,num_channel,i);imagesc(x,y,z);
@@ -27,7 +28,7 @@ for i = 1:num_channel
     title(txt,'Interpreter','none');
     axis xy;
     xlabel("time[s]");
-    ylabel("frequsency[1/s]");
+    ylabel("frequsency_gain[dB]",'Interpreter','none');
     ylim([0,Fs/2])
 end
 %----------------------------------------
@@ -64,8 +65,8 @@ for i = 1:num_row
     power_spectrogram_matrix(:,i) = work_vector;    %行列に並べる
 end
 
-time_vector = linspace(1,time,num_row);
-frequent_vector = linspace(1,SamplingRate,window_length);
+time_vector = linspace(0,time,num_row)
+frequent_vector = linspace(0,SamplingRate,window_length);
 spectrogram_matrix = power_spectrogram_matrix;
 
 end %end of STFT_function
